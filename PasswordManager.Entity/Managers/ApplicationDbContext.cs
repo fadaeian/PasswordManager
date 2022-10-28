@@ -24,5 +24,7 @@ namespace PasswordManager.Entity.Managers
             base.OnModelCreating(modelBuilder);
             modelBuilder.ApplyConfiguration(new UserConf());
         }
+
+        public DbSet<User> User { get; set; }
     }
 }
