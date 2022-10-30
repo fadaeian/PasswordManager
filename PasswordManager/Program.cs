@@ -1,7 +1,10 @@
+using Blazored.LocalStorage;
+using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using PasswordManager;
 using PasswordManager.Base;
+using PasswordManager.Helpers;
 using PasswordManager.Interfaces;
 using PasswordManager.Services;
 
@@ -10,10 +13,21 @@ builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 
 
-BaseApiInfo.ApiAddress = builder.Configuration["ApiAddress"];
+BaseApiInfo.ApiAddress = builder.Configuration.GetSection("ApiSetting:ApiAddress").ToString();
 
 
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 builder.Services.AddScoped<IUserClientService, UserClientService>();
+
+
+//Add Authorize
+builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthStateProvider>();
+builder.Services.AddAuthorizationCore();
+//
+
+
+//AddLocalStorage
+builder.Services.AddBlazoredLocalStorage();
+//
 
 await builder.Build().RunAsync();

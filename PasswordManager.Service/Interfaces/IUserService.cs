@@ -10,5 +10,7 @@ namespace PasswordManager.Service.Interfaces
     public interface IUserService
     {
         ApiResultDTO<List<UserListItemDTO>> GetAllUsers();
+        ApiResultDTO<EditUserDTO> GetUserDetail(string id);
+        ApiResultDTO<bool> UpdateUser(EditUserDTO input);
     }
 }

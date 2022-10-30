@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using PasswordManager.Service.AutoMapper;
 using PasswordManager.Repository.Interfaces;
 using PasswordManager.Repository.Repositories;
+using PasswordManager.Base;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,14 +31,19 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
-
+builder.Services.AddScoped<IAuthService, AuthService>();
 //
+
+
 
 //Add AutoMapper
 builder.Services.AddAutoMapper(typeof(Configuration).Assembly);
 //
 
 //Add Authentication
+
+BaseApiInfo.AuthKey = builder.Configuration.GetSection("AuthSettings:Key").ToString();
+
 builder.Services.AddAuthentication(x =>
 {
     x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -51,7 +57,7 @@ builder.Services.AddAuthentication(x =>
     {
         ValidateIssuerSigningKey = true,
         IssuerSigningKey = new SymmetricSecurityKey(
-            Encoding.UTF8.GetBytes(builder.Configuration.GetSection("AuthSettings:Key").ToString())),
+            Encoding.UTF8.GetBytes(BaseApiInfo.AuthKey)),
         ValidateIssuer = false,
         ValidateAudience = false,
         ClockSkew = TimeSpan.Zero

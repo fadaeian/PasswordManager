@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using PasswordManager.Base.Helpers;
 using PasswordManager.DTO;
 using PasswordManager.Entity.Models;
 using PasswordManager.Repository.Interfaces;
@@ -38,6 +39,38 @@ namespace PasswordManager.Service.Services
             }
             return output;
 
+        }
+
+
+        public ApiResultDTO<EditUserDTO> GetUserDetail(string id) {
+
+            ApiResultDTO<EditUserDTO> output = new ApiResultDTO<EditUserDTO>();
+
+            try
+            {
+                output.Data = _mapper.Map<EditUserDTO>(_userRepository.ReadById(int.Parse(EncryptHelper.Decrypt(id.ToString()))));
+                output.Success = true;
+            }
+            catch (Exception e)
+            {
+                output.Success = false;
+            }
+
+            return output;
+        }
+
+        public ApiResultDTO<bool> UpdateUser(EditUserDTO input) { 
+            ApiResultDTO<bool> output = new ApiResultDTO<bool>();
+            try
+            {
+                _userRepository.Update(_mapper.Map<User>(input));
+                output.Success = true;
+            }
+            catch (Exception e) {
+                output.Success = false;
+            }
+            return output;
+        
         }
     }
 }

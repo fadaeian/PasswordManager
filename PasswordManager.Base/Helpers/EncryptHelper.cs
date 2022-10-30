@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.IdentityModel.Tokens;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
@@ -29,12 +30,12 @@ namespace PasswordManager.Base.Helpers
             };
             ICryptoTransform transform = tripleDEC.CreateEncryptor();
             var result = transform.TransformFinalBlock(data, 0, data.Length);
-            return Convert.ToBase64String(result);
+            return Base64UrlEncoder.Encode(result);
         }
 
         public static string Decrypt(string encrypted)
         {
-            byte[] data = Convert.FromBase64String(encrypted);
+            byte[] data = Base64UrlEncoder.DecodeBytes(encrypted);
             var md5 = new MD5CryptoServiceProvider();
             var tripleDEC = new TripleDESCryptoServiceProvider
             {

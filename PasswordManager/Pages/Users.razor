@@ -1,7 +1,11 @@
-﻿@page "/Users"
+﻿@page "/"
+@page "/Users"
 @inject IUserClientService UserViewService
-
-@*<AuthorizeView>
+@inject ILocalStorageService LocalStorage
+@inject NavigationManager NavigationManager
+@inject AuthenticationStateProvider AuthStateProvider
+@*
+<AuthorizeView>
 	<Authorized>*@
 		<PageTitle>Users</PageTitle>
 		<div class="col-12 row" style="text-align:left; font-weight:bold">
@@ -10,6 +14,7 @@
 		<table class="table">
 			<thead>
 				<tr>
+					<th>UserName</th>
 					<th>Email</th>
 					<th>First Name</th>
 					<th>Last Name</th>
@@ -21,6 +26,7 @@
 				@foreach (var user in UsersList)
 				{
 					<tr>
+						<td>@user.UserName</td>
 						<td>@user.Email</td>
 						<td>@user.FirstName</td>
 						<td>@user.LastName</td>
@@ -34,6 +40,13 @@
 								<input type="checkbox" disabled>
 							}
 						</td>
+						<td>
+							<div>
+
+								<button class="btn btn-primary" title="Edit" @onclick="(() => EditUser(user.Id))"><i class="oi oi-pencil"></i></button>
+
+							</div>
+						</td>
 
 					</tr>
 				}
@@ -41,7 +54,7 @@
 		</table>
 		
 
-@*	</Authorized>
+@*</Authorized>
 	<NotAuthorized>
 		<p role="alert">You're not authorized</p>
 	</NotAuthorized>
@@ -53,8 +66,18 @@
 	public List<UserListItemDTO> UsersList = new();
 	public string ServiceMesssage { get; set; } = string.Empty;
 
+
 	protected override async Task OnInitializedAsync()
 	{
+		//if (string.IsNullOrEmpty(await LocalStorage.GetItemAsync<string?>("token")))
+		//{
+		//	var tokenrresult = await UserViewService.GetUserToken();
+		//	await LocalStorage.SetItemAsync("token", tokenrresult.Data);
+		//}
+		
+		
+  //      await AuthStateProvider.GetAuthenticationStateAsync();
+
 		var result = await UserViewService.GetUserList();
 		if (result.Success)
 		{
@@ -66,6 +89,12 @@
 		}
 
 	}
+
+	void EditUser(string id)
+	{
+		NavigationManager.NavigateTo($"EditUser/{id}");
+	}
+
 
 
 }

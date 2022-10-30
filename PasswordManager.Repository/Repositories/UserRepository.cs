@@ -1,4 +1,5 @@
-﻿using PasswordManager.Entity.Managers;
+﻿using Microsoft.EntityFrameworkCore;
+using PasswordManager.Entity.Managers;
 using PasswordManager.Entity.Models;
 using PasswordManager.Repository.Interfaces;
 using System;
@@ -30,6 +31,21 @@ namespace PasswordManager.Repository.Repositories
             return _dbContext.User.Find(id);
         }
 
+        public User Update(User entity) {
+            if (entity != null)
+            {
+                _dbContext.Entry(entity).State = EntityState.Modified;
+                _dbContext.SaveChanges();
+            }
+            return entity;
+        }
+
+        public User Delete(User entity)
+        {
+            _dbContext.User.Remove(entity);
+            _dbContext.SaveChanges();
+            return entity;
+        }
 
     }
 }

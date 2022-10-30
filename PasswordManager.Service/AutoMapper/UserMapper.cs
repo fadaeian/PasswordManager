@@ -16,6 +16,11 @@ namespace PasswordManager.Service.AutoMapper
         {
             CreateMap<User, UserListItemDTO>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => EncryptHelper.Encrypt(src.UserId.ToString())));
+            CreateMap<User, EditUserDTO>()
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => EncryptHelper.Encrypt(src.UserId.ToString())));
+            CreateMap<EditUserDTO, User>()
+                .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => EncryptHelper.Decrypt(src.Id.ToString())));
+
         }
     }
 }

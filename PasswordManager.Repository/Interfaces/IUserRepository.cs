@@ -11,6 +11,8 @@ namespace PasswordManager.Repository.Interfaces
     {
         List<User> ReadAll();
         User ReadById(int id);
+        User Update(User entity);
+        User Delete(User entity);
 
     }
 }

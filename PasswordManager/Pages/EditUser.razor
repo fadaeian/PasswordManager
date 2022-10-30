@@ -1,0 +1,109 @@
+﻿@page "/EditUser/{id}"
+@inject IUserClientService UserService
+@inject NavigationManager NavigationManager
+
+@*TODO*@
+@*@attribute [Authorize]*@
+
+<h3>EditUser</h3>
+<hr />
+<div class="col-12 row" style="text-align:left; font-weight:bold">
+	<span class="col-12" style="color:red">@ServiceMesssage</span>
+</div>
+<EditForm Model="CurrentUser" OnValidSubmit="OnValidSubmit">
+	<FluentValidationValidator />
+	<ValidationSummary />
+	<div class="row">
+	<div class="form-group col-md-4">
+		<label class="col-form-label">UserName: </label>
+		<div >
+			<InputText class="form-control" @bind-Value="@CurrentUser.UserName" readonly></InputText>
+				<ValidationMessage For="@(()=> CurrentUser.UserName)" />
+		</div>
+	</div>
+	<div class="form-group col-md-4">
+		<label class="col-form-label">FirstName: </label>
+		<div class="">
+			<InputText class="form-control" @bind-Value="@CurrentUser.FirstName"></InputText>
+			<ValidationMessage For="@(()=> CurrentUser.FirstName)" />
+		</div>
+	</div>
+
+	<div class="form-group col-md-4">
+		<label class="col-form-label">LastName: </label>
+		<div class="">
+			<InputText class="form-control" @bind-Value="@CurrentUser.LastName"></InputText>
+			<ValidationMessage For="@(()=> CurrentUser.LastName)" />
+		</div>
+	</div>
+	</div>
+		<div class="row">
+		<div class="form-group col-md-4">
+			<label class="col-form-label">Email: </label>
+			<div>
+				<InputText class="form-control" @bind-Value="@CurrentUser.Email"></InputText>
+				<ValidationMessage For="@(()=> CurrentUser.Email)" />
+			</div>
+		</div>
+	<div class="form-group col-md-4">
+		<label class="col-form-label">RegisterDate: </label>
+		<div class="">
+			<InputDate class="form-control" @bind-Value="CurrentUser.RegisterDate"></InputDate>
+			<ValidationMessage For="@(()=> CurrentUser.RegisterDate)" />
+		</div>
+	</div>
+
+	<div class="form-group col-md-4">
+		<label class="col-form-label">Address: </label>
+		<div class="">
+			<InputTextArea class="form-control" @bind-Value="CurrentUser.Address"></InputTextArea>
+			<ValidationMessage For="@(()=> CurrentUser.Address)" />
+		</div>
+	</div>
+	</div>
+	<br />
+	<button class="btn btn-warning" title="Return" @onclick="(() => Return())">Return</button>
+	<button type="submit" title="Save" class="btn btn-success">Save</button>
+	
+</EditForm>
+@code {
+	[Parameter]
+	public string id { get; set; }
+	public string ServiceMesssage { get; set; } = string.Empty;
+	public EditUserDTO CurrentUser = new();
+
+
+	protected override async Task OnInitializedAsync()
+	{
+		var result = await UserService.GetUserDetail(id);
+		if (result.Success)
+		{
+			CurrentUser = result.Data;
+		}
+		else
+		{
+			NavigationManager.NavigateTo("Error");
+		}
+
+	}
+
+	async Task OnValidSubmit()
+	{
+		var result = await UserService.UpdateUser(CurrentUser);
+		if (result.Success)
+		{
+			NavigationManager.NavigateTo("Users");
+		}
+		else
+		{
+			ServiceMesssage = result.Error;
+		}
+
+	}
+
+
+	private void Return()
+	{
+		NavigationManager.NavigateTo("Users");
+	}
+}
