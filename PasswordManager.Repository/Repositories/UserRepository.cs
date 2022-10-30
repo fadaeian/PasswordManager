@@ -4,6 +4,7 @@ using PasswordManager.Repository.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -23,6 +24,10 @@ namespace PasswordManager.Repository.Repositories
 
             return _dbContext.User.ToList();
 
+        }
+
+        public User ReadById(int id) {
+            return _dbContext.User.Find(id);
         }
 
 

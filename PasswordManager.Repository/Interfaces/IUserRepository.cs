@@ -10,6 +10,7 @@ namespace PasswordManager.Repository.Interfaces
     public interface IUserRepository
     {
         List<User> ReadAll();
+        User ReadById(int id);
 
     }
 }
