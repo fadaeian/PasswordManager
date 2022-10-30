@@ -1,14 +1,18 @@
 ﻿using AutoMapper;
+using Microsoft.IdentityModel.Logging;
+using Newtonsoft.Json;
 using PasswordManager.Base.Helpers;
 using PasswordManager.DTO;
 using PasswordManager.Entity.Models;
 using PasswordManager.Repository.Interfaces;
 using PasswordManager.Repository.Repositories;
+using PasswordManager.Service.Helper;
 using PasswordManager.Service.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 using System.Xml;
 
@@ -32,10 +36,10 @@ namespace PasswordManager.Service.Services
             {
             
                 output.Data = _mapper.Map<List<UserListItemDTO>>(_userRepository.ReadAll());
-                output.Success = true;  
+                SeriLogHelper.SaveSuccessLog(output,"GetAllUsers","All User List");
 
             } catch (Exception e) {
-                output.Success = false;
+                SeriLogHelper.SaveErrorLog(output, e, "GetAllUsers");
             }
             return output;
 
@@ -49,11 +53,11 @@ namespace PasswordManager.Service.Services
             try
             {
                 output.Data = _mapper.Map<EditUserDTO>(_userRepository.ReadById(int.Parse(EncryptHelper.Decrypt(id.ToString()))));
-                output.Success = true;
+                SeriLogHelper.SaveSuccessLog(output, "GetUserDetail", JsonConvert.SerializeObject(output.Data));
             }
             catch (Exception e)
             {
-                output.Success = false;
+                SeriLogHelper.SaveErrorLog(output, e, "GetUserDetail");
             }
 
             return output;
@@ -64,10 +68,11 @@ namespace PasswordManager.Service.Services
             try
             {
                 _userRepository.Update(_mapper.Map<User>(input));
-                output.Success = true;
+                SeriLogHelper.SaveSuccessLog(output, "UpdateUser",
+                    JsonConvert.SerializeObject(output.Data));
             }
             catch (Exception e) {
-                output.Success = false;
+                SeriLogHelper.SaveErrorLog(output, e, "UpdateUser");
             }
             return output;
         
