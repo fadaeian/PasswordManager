@@ -1,4 +1,4 @@
-﻿using PasswordManager.Service.DTOs;
+﻿using PasswordManager.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +9,6 @@ namespace PasswordManager.Service.Interfaces
 {
     public interface IUserService
     {
-        List<UserListItemDTO> GetAllUsers();
+        ApiResultDTO<List<UserListItemDTO>> GetAllUsers();
     }
 }

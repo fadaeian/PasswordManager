@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using PasswordManager.Base.Helpers;
+using PasswordManager.DTO;
 using PasswordManager.Entity.Models;
-using PasswordManager.Service.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;

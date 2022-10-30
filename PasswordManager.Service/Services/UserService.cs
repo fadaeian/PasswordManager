@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
+using PasswordManager.DTO;
 using PasswordManager.Entity.Models;
 using PasswordManager.Repository.Interfaces;
 using PasswordManager.Repository.Repositories;
-using PasswordManager.Service.DTOs;
 using PasswordManager.Service.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -23,13 +23,19 @@ namespace PasswordManager.Service.Services
             _mapper = mapper;
         }
 
-        public List<UserListItemDTO> GetAllUsers()
+        public ApiResultDTO<List<UserListItemDTO>> GetAllUsers()
         {
 
-            List<UserListItemDTO> output = new List<UserListItemDTO>();
-
-            output = _mapper.Map<List<UserListItemDTO>>(_userRepository.ReadAll());
+            ApiResultDTO<List<UserListItemDTO>> output = new ApiResultDTO<List<UserListItemDTO>>();
+            try
+            {
             
+                output.Data = _mapper.Map<List<UserListItemDTO>>(_userRepository.ReadAll());
+                output.Success = true;  
+
+            } catch (Exception e) {
+                output.Success = false;
+            }
             return output;
 
         }
