@@ -16,8 +16,7 @@ namespace PasswordManager.Api.Controllers
         [ActionName("Users")]
         public async Task<IActionResult> GetAllUser()
         {
-            var result = _service.GetAllUsers();
-            return Ok();
+            return Ok(_service.GetAllUsers());
         }
     }
 }

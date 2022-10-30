@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace PasswordManager.Api.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [Route("api/[action]")]
     [ApiController]
     public class BaseController<T> : ControllerBase

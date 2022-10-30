@@ -50,7 +50,8 @@ builder.Services.AddAuthentication(x =>
     x.TokenValidationParameters = new TokenValidationParameters
     {
         ValidateIssuerSigningKey = true,
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("MF@daEiAnD#v#l0per")),
+        IssuerSigningKey = new SymmetricSecurityKey(
+            Encoding.UTF8.GetBytes(builder.Configuration.GetSection("AuthSettings:Key").ToString())),
         ValidateIssuer = false,
         ValidateAudience = false,
         ClockSkew = TimeSpan.Zero
@@ -70,8 +71,16 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
+//Added for requests
+app.UseCors(option =>
+    option.AllowAnyOrigin()
+          .AllowAnyHeader()
+          .AllowAnyMethod()
+);
 
 app.Run();
