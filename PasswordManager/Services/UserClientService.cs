@@ -39,5 +39,13 @@ namespace PasswordManager.Services
             return JsonConvert.DeserializeObject<ApiResultDTO<bool>>(result.Content.ReadAsStringAsync().Result);
         }
 
+        public async Task<ApiResultDTO<bool>> DeleteUser(UserListItemDTO input)
+        {
+            var result = await _ApiUrl.PostAsJsonAsync($"https://localhost:7197/api/DeleteUser", input);
+            return JsonConvert.DeserializeObject<ApiResultDTO<bool>>(result.Content.ReadAsStringAsync().Result);
+        }
+
+
+
     }
 }

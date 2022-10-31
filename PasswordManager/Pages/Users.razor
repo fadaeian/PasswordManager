@@ -1,6 +1,6 @@
 ﻿
 @page "/Users"
-@inject IUserClientService UserViewService
+@inject IUserClientService UserClientService
 @inject ILocalStorageService LocalStorage
 @inject NavigationManager NavigationManager
 @inject AuthenticationStateProvider AuthStateProvider
@@ -45,9 +45,10 @@
 						</td>
 						<td>
 							<div>
-
-								<button class="btn btn-primary" title="Edit" @onclick="(() => EditUser(user.Id))"><i class="oi oi-pencil"></i></button>
-
+								@if(user.UserName != "Admin"){
+									<button class="custombtn p-1" title="Edit" @onclick="(() => EditUser(user.Id))"><i class="oi oi-pencil"></i></button>
+									<button class="customdelbtn p-1" title="Delete" @onclick="(() => DeleteUser(user))"><i class="oi oi-trash"></i></button>
+								}
 							</div>
 						</td>
 
@@ -72,16 +73,9 @@
 
 	protected override async Task OnInitializedAsync()
 	{
-		//if (string.IsNullOrEmpty(await LocalStorage.GetItemAsync<string?>("token")))
-		//{
-		//	var tokenrresult = await UserViewService.GetUserToken();
-		//	await LocalStorage.SetItemAsync("token", tokenrresult.Data);
-		//}
-		
-		
-  //      await AuthStateProvider.GetAuthenticationStateAsync();
+		await AuthStateProvider.GetAuthenticationStateAsync();
 
-		var result = await UserViewService.GetUserList();
+		var result = await UserClientService.GetUserList();
 		if (result.Success)
 		{
 			UsersList = result.Data;
@@ -103,5 +97,31 @@
 		NavigationManager.NavigateTo("CreateUser");
 	}
 
+
+	private async void DeleteUser(UserListItemDTO input)
+	{
+		var result = await UserClientService.DeleteUser(input);
+		if (result.Success)
+		{
+			var loadresult = await UserClientService.GetUserList();
+			if (loadresult.Success)
+			{
+				UsersList = loadresult.Data;
+					await InvokeAsync(() =>
+                {
+
+                    StateHasChanged();
+                });
+			}
+			else
+			{
+				ServiceMesssage = result.Error;
+			}
+		}
+		else
+		{
+			ServiceMesssage = result.Error;
+		}
+	}
 
 }

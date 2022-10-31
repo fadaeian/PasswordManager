@@ -42,6 +42,17 @@ namespace PasswordManager.Entity.ModelsConf
                     Locked = false,
                     FirstName = "Mohammad",
                     LastName = "Fadaeian",
+                },
+                new User()
+                {
+                    UserId = 1,
+                    UserName = "user",
+                    Email = "user@Gmail.com",
+                    Password = EncryptHelper.PasswordHash("123456"),
+                    RegisterDate = DateTime.Now,
+                    Locked = false,
+                    FirstName = "testuser",
+                    LastName = "testuser",
                 }
              );
         }

@@ -22,7 +22,7 @@ namespace PasswordManager.Service.Services
     {
         private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
-        public UserService(IMapper mapper,IUserRepository userRepository)
+        public UserService(IMapper mapper, IUserRepository userRepository)
         {
             _userRepository = userRepository;
             _mapper = mapper;
@@ -34,11 +34,13 @@ namespace PasswordManager.Service.Services
             ApiResultDTO<List<UserListItemDTO>> output = new ApiResultDTO<List<UserListItemDTO>>();
             try
             {
-            
-                output.Data = _mapper.Map<List<UserListItemDTO>>(_userRepository.ReadAll());
-                SeriLogHelper.SaveSuccessLog(output,"GetAllUsers","All User List");
 
-            } catch (Exception e) {
+                output.Data = _mapper.Map<List<UserListItemDTO>>(_userRepository.ReadAll());
+                SeriLogHelper.SaveSuccessLog(output, "GetAllUsers", "All User List");
+
+            }
+            catch (Exception e)
+            {
                 SeriLogHelper.SaveErrorLog(output, e, "GetAllUsers");
             }
             return output;
@@ -46,7 +48,8 @@ namespace PasswordManager.Service.Services
         }
 
 
-        public ApiResultDTO<EditUserDTO> GetUserDetail(string id) {
+        public ApiResultDTO<EditUserDTO> GetUserDetail(string id)
+        {
 
             ApiResultDTO<EditUserDTO> output = new ApiResultDTO<EditUserDTO>();
 
@@ -63,7 +66,8 @@ namespace PasswordManager.Service.Services
             return output;
         }
 
-        public ApiResultDTO<bool> UpdateUser(EditUserDTO input) { 
+        public ApiResultDTO<bool> UpdateUser(EditUserDTO input)
+        {
             ApiResultDTO<bool> output = new ApiResultDTO<bool>();
             try
             {
@@ -71,11 +75,12 @@ namespace PasswordManager.Service.Services
                 SeriLogHelper.SaveSuccessLog(output, "UpdateUser",
                     JsonConvert.SerializeObject(output.Data));
             }
-            catch (Exception e) {
+            catch (Exception e)
+            {
                 SeriLogHelper.SaveErrorLog(output, e, "UpdateUser");
             }
             return output;
-        
+
         }
         public ApiResultDTO<bool> CreateUser(CreateUserDTO input)
         {
@@ -83,12 +88,14 @@ namespace PasswordManager.Service.Services
             try
             {
 
-                if (!_userRepository.UserExist(_mapper.Map<User>(input))){
+                if (!_userRepository.UserExist(_mapper.Map<User>(input)))
+                {
 
                     _userRepository.Create(_mapper.Map<User>(input));
                     SeriLogHelper.SaveSuccessLog(output, "CreateUser", String.Format("UserName:{0}", input.UserName));
                 }
-                else {
+                else
+                {
                     SeriLogHelper.SaveFailLog(output, "CreateUser", "User Exist");
                 }
             }
@@ -98,6 +105,20 @@ namespace PasswordManager.Service.Services
             }
             return output;
 
+        }
+        public ApiResultDTO<bool> DeleteUser(UserListItemDTO input)
+        {
+            ApiResultDTO<bool> output = new ApiResultDTO<bool>();
+            try
+            {
+                _userRepository.Delete(_mapper.Map<User>(input));
+                SeriLogHelper.SaveSuccessLog(output, "DeleteUser", String.Format("UserName:{0}",input.UserName));
+            }
+            catch (Exception e)
+            {
+                SeriLogHelper.SaveErrorLog(output, e, "DeleteUser");
+            }
+            return output;
         }
     }
 }

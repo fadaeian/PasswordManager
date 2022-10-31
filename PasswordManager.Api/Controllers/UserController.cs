@@ -44,5 +44,13 @@ namespace PasswordManager.Api.Controllers
             return Ok(_service.CreateUser(input));
 
         }
+
+        [HttpPost]
+        [ActionName("DeleteUser")]
+        public async Task<IActionResult> DeleteUser(UserListItemDTO input)
+        {
+            return Ok(_service.DeleteUser(input));
+        }
+        
     }
 }

@@ -8,5 +8,6 @@ namespace PasswordManager.Interfaces
         Task<ApiResultDTO<EditUserDTO>> GetUserDetail(string id);
         Task<ApiResultDTO<bool>> UpdateUser(EditUserDTO input);
         Task<ApiResultDTO<bool>> CreateUser(CreateUserDTO input);
+        Task<ApiResultDTO<bool>> DeleteUser(UserListItemDTO input);
     }
 }

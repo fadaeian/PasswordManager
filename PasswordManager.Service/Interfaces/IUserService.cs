@@ -13,5 +13,6 @@ namespace PasswordManager.Service.Interfaces
         ApiResultDTO<EditUserDTO> GetUserDetail(string id);
         ApiResultDTO<bool> UpdateUser(EditUserDTO input);
         ApiResultDTO<bool> CreateUser(CreateUserDTO input);
+        ApiResultDTO<bool> DeleteUser(UserListItemDTO input);
     }
 }
