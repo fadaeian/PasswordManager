@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PasswordManager.Base;
+using PasswordManager.DTO;
 using PasswordManager.Service.Interfaces;
 
 namespace PasswordManager.Api.Controllers
@@ -13,11 +14,11 @@ namespace PasswordManager.Api.Controllers
         { }
 
         [AllowAnonymous]
-        [HttpGet]
-        [ActionName("GetToken")]
-        public async Task<IActionResult> GetToken()
+        [HttpPost]
+        [ActionName("Login")]
+        public async Task<IActionResult> Login(LoginDTO input)
         {
-            return Ok(_service.CreateJWTToken("Administrator", BaseApiInfo.AuthKey));
+            return Ok(await _service.Login(input));
         }
     }
 }

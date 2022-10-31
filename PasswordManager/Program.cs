@@ -18,10 +18,12 @@ BaseApiInfo.ApiAddress = builder.Configuration.GetSection("ApiSetting:ApiAddress
 
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 builder.Services.AddScoped<IUserClientService, UserClientService>();
+builder.Services.AddScoped<ILoginClientService, LoginClientService>();
 
 
 //Add Authorize
 builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthStateProvider>();
+builder.Services.AddOptions();
 builder.Services.AddAuthorizationCore();
 //
 

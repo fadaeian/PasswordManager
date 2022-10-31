@@ -10,8 +10,8 @@ namespace PasswordManager.Repository.Interfaces
     {
         List<T> ReadAll();
         T ReadById(K id);
-        T create(T entity);
-        T update(T entity);
-        T delete(T entity);
+        T Create(T entity);
+        T Update(T entity);
+        T Delete(T entity);
     }
 }

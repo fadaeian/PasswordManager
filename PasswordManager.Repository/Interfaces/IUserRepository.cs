@@ -7,12 +7,8 @@ using System.Threading.Tasks;
 
 namespace PasswordManager.Repository.Interfaces
 {
-    public interface IUserRepository
+    public interface IUserRepository:IBaseRepository<User,int>
     {
-        List<User> ReadAll();
-        User ReadById(int id);
-        User Update(User entity);
-        User Delete(User entity);
-
+        User FindUser(User entity);
     }
 }

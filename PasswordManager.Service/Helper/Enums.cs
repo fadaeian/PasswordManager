@@ -11,7 +11,8 @@ namespace PasswordManager.Service.Helper
 		public enum LogType
 		{
 			Success = 0,
-			Error = 1
+			Fail = 1,
+			Error = 2
 		}
 	}
 }

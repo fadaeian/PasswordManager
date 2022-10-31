@@ -11,7 +11,16 @@ h1:focus {
 a, .btn-link {
     color: #0071c1;
 }
-
+.custombtn {
+    fill: #FFFFFF;
+    color: #FFFFFF;
+    background-color: #0093FF;
+    border-style: solid;
+    border-width: 2px 2px 2px 2px;
+    border-color: #0093FF;
+    border-radius: 7px 7px 7px 7px;
+    padding: 15px 30px 15px 30px;
+}
 .btn-primary {
     color: #fff;
     background-color: #1b6ec2;

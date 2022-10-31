@@ -1,0 +1,66 @@
+﻿@page "/"
+@inject ILoginClientService LoginClientService
+@inject ILocalStorageService LocalStorage
+@inject NavigationManager NavigationManager
+@inject AuthenticationStateProvider AuthStateProvider
+@layout LoginLayout
+
+<div class="m-auto card col-7 mt-3  shadow-sm rounded">
+    <div style="text-align:center; background-image: linear-gradient(180deg, rgb(5, 39, 103) 0%, #3a0647 70%);">
+        <div class="container-fluid">
+            <a href="https://goodlawsoftware.co.uk">
+                <img width="170" height="75" src="https://goodlawsoftware.co.uk/wp-content/uploads/2022/05/logo.png" class="attachment-full size-full" alt="" loading="lazy">
+            </a>
+            <h3 style="color:white">PasswordManager</h3>
+          
+        </div>
+    </div>
+    
+    <div class="card-body p-10">
+
+        <EditForm Model="@currentLoginDTO" OnValidSubmit="@OnValidSubmit">
+            <FluentValidationValidator />
+            <div class="col-12 row" style="text-align:left; font-weight:bold">
+                <span class="col-12" style="color:red">@ServiceMesssage</span>
+            </div>
+            <div class="form-group">
+                <label>UserName:</label>
+                <InputText @bind-Value="@currentLoginDTO.UserName" class="form-control  mt-1" />
+                <ValidationMessage For="@(() => currentLoginDTO.UserName)"></ValidationMessage>
+            </div>
+            <div class="form-group m-t">
+                <label>Password:</label>
+                <input @bind-value="@currentLoginDTO.Password" type="password" class="form-control  mt-1" />
+                <ValidationMessage For="@(() => currentLoginDTO.Password)"></ValidationMessage>
+            </div>
+            <center>
+            <button type="submit" button-type="Primary" name="Action" value="Login" class="custombtn col-4 m-2" style="text-align:center">Login</button>
+            </center>
+        </EditForm>
+    </div>
+</div>
+
+@code{
+
+    public string ServiceMesssage { get; set; } = string.Empty;
+    protected LoginDTO currentLoginDTO = new LoginDTO();
+
+    private async Task<bool> OnValidSubmit() { 
+    
+        var result = await LoginClientService.Login(currentLoginDTO);
+        if (result.Success)
+        {
+            await LocalStorage.SetItemAsync("token", result.Data);
+            await AuthStateProvider.GetAuthenticationStateAsync();
+            NavigationManager.NavigateTo("/Users");
+        }
+        else
+        {
+            ServiceMesssage = result.Error;
+        }
+
+        return await Task.FromResult(true);
+    
+    }
+
+}

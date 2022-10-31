@@ -32,6 +32,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IAuthService, AuthService>();
+
 //
 
 
@@ -83,18 +84,25 @@ if (app.Environment.IsDevelopment())
 }
 
 
-app.UseHttpsRedirection();
 
-app.UseAuthentication();
-app.UseAuthorization();
 
-app.MapControllers();
 
-//Added for requests
+//Added for requests origion it should be before authenticaition
 app.UseCors(option =>
     option.AllowAnyOrigin()
           .AllowAnyHeader()
           .AllowAnyMethod()
 );
+//
+
+app.UseHttpsRedirection();
+
+app.UseRouting();
+app.UseAuthentication();
+app.UseAuthorization();
+
+app.MapControllers();
+
+
 
 app.Run();

@@ -1,12 +1,13 @@
-﻿@page "/"
+﻿
 @page "/Users"
 @inject IUserClientService UserViewService
 @inject ILocalStorageService LocalStorage
 @inject NavigationManager NavigationManager
 @inject AuthenticationStateProvider AuthStateProvider
-@*
+@attribute [Authorize]
+
 <AuthorizeView>
-	<Authorized>*@
+	<Authorized>
 		<PageTitle>Users</PageTitle>
 		<div class="col-12 row" style="text-align:left; font-weight:bold">
 			<span class="col-12" style="color:red">@ServiceMesssage</span>
@@ -54,11 +55,11 @@
 		</table>
 		
 
-@*</Authorized>
+</Authorized>
 	<NotAuthorized>
 		<p role="alert">You're not authorized</p>
 	</NotAuthorized>
-</AuthorizeView>*@
+</AuthorizeView>
 
 
 

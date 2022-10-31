@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace PasswordManager.Repository.Repositories
 {
-    public class UserRepository:IUserRepository
+    public class UserRepository : IUserRepository
     {
         private readonly ApplicationDbContext _dbContext;
         public UserRepository(ApplicationDbContext dbcontext)
@@ -47,5 +47,16 @@ namespace PasswordManager.Repository.Repositories
             return entity;
         }
 
+        public User Create(User entity)
+        {
+            return entity;
+        }
+
+        public User FindUser(User entity)
+        {
+            return _dbContext.User.
+                Where(c => c.Password == entity.Password &&
+                (c.UserName == entity.UserName)).FirstOrDefault();
+        }
     }
 }
