@@ -16,11 +16,6 @@ namespace PasswordManager.Services
             _ApiUrl = httpClient;
         }
 
-        public async Task<ApiResultDTO<string>> GetUserToken()
-        {
-            var result = await _ApiUrl.GetFromJsonAsync<ApiResultDTO<string>>($"https://localhost:7197/api/GetToken");
-            return result;
-        }
 
         public async Task<ApiResultDTO<List<UserListItemDTO>>> GetUserList()
         {
@@ -36,6 +31,11 @@ namespace PasswordManager.Services
         public async Task<ApiResultDTO<bool>> UpdateUser(EditUserDTO input)
         {
             var result = await _ApiUrl.PostAsJsonAsync($"https://localhost:7197/api/UpdateUser", input);
+            return JsonConvert.DeserializeObject<ApiResultDTO<bool>>(result.Content.ReadAsStringAsync().Result);
+        }
+        public async Task<ApiResultDTO<bool>> CreateUser(CreateUserDTO input)
+        {
+            var result = await _ApiUrl.PostAsJsonAsync($"https://localhost:7197/api/CreateUser", input);
             return JsonConvert.DeserializeObject<ApiResultDTO<bool>>(result.Content.ReadAsStringAsync().Result);
         }
 

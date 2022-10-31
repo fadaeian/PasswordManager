@@ -77,5 +77,27 @@ namespace PasswordManager.Service.Services
             return output;
         
         }
+        public ApiResultDTO<bool> CreateUser(CreateUserDTO input)
+        {
+            ApiResultDTO<bool> output = new ApiResultDTO<bool>();
+            try
+            {
+
+                if (!_userRepository.UserExist(_mapper.Map<User>(input))){
+
+                    _userRepository.Create(_mapper.Map<User>(input));
+                    SeriLogHelper.SaveSuccessLog(output, "CreateUser", String.Format("UserName:{0}", input.UserName));
+                }
+                else {
+                    SeriLogHelper.SaveFailLog(output, "CreateUser", "User Exist");
+                }
+            }
+            catch (Exception e)
+            {
+                SeriLogHelper.SaveErrorLog(output, e, "UpdateUser");
+            }
+            return output;
+
+        }
     }
 }

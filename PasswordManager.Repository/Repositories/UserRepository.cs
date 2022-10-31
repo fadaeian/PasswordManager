@@ -34,7 +34,12 @@ namespace PasswordManager.Repository.Repositories
         public User Update(User entity) {
             if (entity != null)
             {
-                _dbContext.Entry(entity).State = EntityState.Modified;
+                _dbContext.User.Attach(entity);
+                _dbContext.Entry(entity).Property(x => x.Email).IsModified = true;
+                _dbContext.Entry(entity).Property(x => x.Address).IsModified = true;
+                _dbContext.Entry(entity).Property(x => x.FirstName).IsModified = true;
+                _dbContext.Entry(entity).Property(x => x.LastName).IsModified = true;
+                _dbContext.Entry(entity).Property(x => x.RegisterDate).IsModified = true;
                 _dbContext.SaveChanges();
             }
             return entity;
@@ -49,6 +54,8 @@ namespace PasswordManager.Repository.Repositories
 
         public User Create(User entity)
         {
+            _dbContext.User.Add(entity);
+            _dbContext.SaveChanges();
             return entity;
         }
 
@@ -57,6 +64,13 @@ namespace PasswordManager.Repository.Repositories
             return _dbContext.User.
                 Where(c => c.Password == entity.Password &&
                 (c.UserName == entity.UserName)).FirstOrDefault();
+        }
+
+        public bool UserExist(User entity)
+        {
+            return _dbContext.User.
+                Where(x => x.UserName == entity.UserName || x.Email.ToLower() == entity.Email.ToLower())
+                .SingleOrDefault() != null;
         }
     }
 }

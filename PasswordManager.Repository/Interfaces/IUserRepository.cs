@@ -10,5 +10,6 @@ namespace PasswordManager.Repository.Interfaces
     public interface IUserRepository:IBaseRepository<User,int>
     {
         User FindUser(User entity);
+        bool UserExist(User entity);
     }
 }

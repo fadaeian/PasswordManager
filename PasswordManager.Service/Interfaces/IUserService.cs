@@ -12,5 +12,6 @@ namespace PasswordManager.Service.Interfaces
         ApiResultDTO<List<UserListItemDTO>> GetAllUsers();
         ApiResultDTO<EditUserDTO> GetUserDetail(string id);
         ApiResultDTO<bool> UpdateUser(EditUserDTO input);
+        ApiResultDTO<bool> CreateUser(CreateUserDTO input);
     }
 }

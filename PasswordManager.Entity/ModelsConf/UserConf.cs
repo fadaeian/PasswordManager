@@ -35,9 +35,9 @@ namespace PasswordManager.Entity.ModelsConf
                 new User()
                 {
                     UserId = -1,
-                    UserName = "Administrator",
-                    Email = "fadaeian.mohammad@Gmail.com",
-                    Password = EncryptHelper.PasswordHash("m9230235"),
+                    UserName = "Admin",
+                    Email = "fadaeian@Gmail.com",
+                    Password = EncryptHelper.PasswordHash("12345"),
                     RegisterDate = DateTime.Now,
                     Locked = false,
                     FirstName = "Mohammad",

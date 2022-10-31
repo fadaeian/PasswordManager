@@ -23,6 +23,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(
 
 // Add services to the container.
 builder.Services.AddControllers();
+builder.Services.AddCors();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -58,7 +59,7 @@ builder.Services.AddAuthentication(x =>
     {
         ValidateIssuerSigningKey = true,
         IssuerSigningKey = new SymmetricSecurityKey(
-            Encoding.UTF8.GetBytes(BaseApiInfo.AuthKey)),
+            Encoding.UTF8.GetBytes("MF@daEiAnD#v#l0per")),
         ValidateIssuer = false,
         ValidateAudience = false,
         ClockSkew = TimeSpan.Zero
@@ -84,23 +85,21 @@ if (app.Environment.IsDevelopment())
 }
 
 
-
-
-
-//Added for requests origion it should be before authenticaition
 app.UseCors(option =>
     option.AllowAnyOrigin()
           .AllowAnyHeader()
           .AllowAnyMethod()
 );
-//
+
+
 
 app.UseHttpsRedirection();
 
-app.UseRouting();
 app.UseAuthentication();
-app.UseAuthorization();
 
+app.UseRouting();
+
+app.UseAuthorization();
 app.MapControllers();
 
 

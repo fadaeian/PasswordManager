@@ -36,5 +36,13 @@ namespace PasswordManager.Api.Controllers
             return Ok(_service.UpdateUser(input));
 
         }
+
+        [HttpPost]
+        [ActionName("CreateUser")]
+        public async Task<IActionResult> CreateUser(CreateUserDTO input)
+        {
+            return Ok(_service.CreateUser(input));
+
+        }
     }
 }

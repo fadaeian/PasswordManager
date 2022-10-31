@@ -12,6 +12,8 @@
 		<div class="col-12 row" style="text-align:left; font-weight:bold">
 			<span class="col-12" style="color:red">@ServiceMesssage</span>
 		</div>
+		<button class="col-sm-2 custombtn p-2" title="Create User" @onclick="CreateUser">Create User</button>
+		<div class="margin-top:10px;height:1px;background-color:black" />
 		<table class="table">
 			<thead>
 				<tr>
@@ -91,11 +93,15 @@
 
 	}
 
-	void EditUser(string id)
+	private void EditUser(string id)
 	{
 		NavigationManager.NavigateTo($"EditUser/{id}");
 	}
 
+	private void CreateUser()
+	{
+		NavigationManager.NavigateTo("CreateUser");
+	}
 
 
 }

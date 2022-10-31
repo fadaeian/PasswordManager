@@ -22,6 +22,8 @@ namespace PasswordManager.Service.AutoMapper
                 .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => EncryptHelper.Decrypt(src.Id.ToString())));
             CreateMap<LoginDTO, User>()
                 .ForMember(dest => dest.Password, opt => opt.MapFrom(src => EncryptHelper.PasswordHash(src.Password.ToString())));
+            CreateMap<CreateUserDTO, User>()
+                .ForMember(dest => dest.Password, opt => opt.MapFrom(src => EncryptHelper.PasswordHash(src.Password.ToString())));
         }
     }
 }
