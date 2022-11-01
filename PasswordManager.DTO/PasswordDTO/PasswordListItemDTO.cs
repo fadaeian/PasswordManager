@@ -10,5 +10,6 @@ namespace PasswordManager.DTO
         public string Name { get; set; }
         public string SiteURL { get; set; }
         public string UserName { get; set; }
+        public DateTime ModifiedDate { get; set; }
     }
 }

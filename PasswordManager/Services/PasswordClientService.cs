@@ -37,5 +37,10 @@ namespace PasswordManager.Services
             var result = await _ApiUrl.PostAsJsonAsync($"{BaseApiInfo.ApiAddress}api/DeletePassword", input);
             return JsonConvert.DeserializeObject<ApiResultDTO<bool>>(result.Content.ReadAsStringAsync().Result);
         }
+
+        public async Task<ApiResultDTO<bool>> UpdatePassword(EditPasswordDTO input) {
+            var result = await _ApiUrl.PostAsJsonAsync($"{BaseApiInfo.ApiAddress}api/UpdatePassword", input);
+            return JsonConvert.DeserializeObject<ApiResultDTO<bool>>(result.Content.ReadAsStringAsync().Result);
+        }
     }
 }

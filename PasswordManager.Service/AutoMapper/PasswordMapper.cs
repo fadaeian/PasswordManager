@@ -16,12 +16,18 @@ namespace PasswordManager.Service.AutoMapper
         {
             CreateMap<Passwords, PasswordListItemDTO>()
                        .ForMember(dest => dest.Id, opt => opt.MapFrom(src => EncryptHelper.Encrypt(src.PasswordId.ToString())));
+            CreateMap<Passwords, EditPasswordDTO>()
+                       .ForMember(dest => dest.Id, opt => opt.MapFrom(src => EncryptHelper.Encrypt(src.PasswordId.ToString())))
+                       .ForMember(dest => dest.Password, opt => opt.MapFrom(src => EncryptHelper.Decrypt(src.Password.ToString())));
             CreateMap<PasswordListItemDTO, Passwords>()
                 .ForMember(dest => dest.PasswordId, opt => opt.MapFrom(src => EncryptHelper.Decrypt(src.Id.ToString())));
             CreateMap<EditPasswordDTO, Passwords>()
-                       .ForMember(dest => dest.PasswordId, opt => opt.MapFrom(src => EncryptHelper.Decrypt(src.Id.ToString())));
+                       .ForMember(dest => dest.PasswordId, opt => opt.MapFrom(src => EncryptHelper.Decrypt(src.Id.ToString())))
+                       .ForMember(dest => dest.Password, opt => opt.MapFrom(src => EncryptHelper.Encrypt(src.Password.ToString())))
+                       .ForMember(dest => dest.ModifiedDate, opt => opt.MapFrom( src => DateTime.Now.ToString()));
             CreateMap<CreatePasswordDTO, Passwords>()
-                       .ForMember(dest => dest.PasswordId, opt => opt.MapFrom(src => EncryptHelper.Decrypt(src.Id.ToString())));
+                       .ForMember(dest => dest.PasswordId, opt => opt.MapFrom(src => EncryptHelper.Decrypt(src.Id.ToString())))
+                       .ForMember(dest => dest.Password, opt => opt.MapFrom(src => EncryptHelper.Encrypt(src.Password.ToString())));
         }
     }
 }

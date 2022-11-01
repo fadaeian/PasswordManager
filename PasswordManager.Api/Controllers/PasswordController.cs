@@ -43,5 +43,13 @@ namespace PasswordManager.Api.Controllers
         {
             return Ok(_service.DeletePassword(input));
         }
+
+        [HttpPost]
+        [ActionName("UpdatePassword")]
+        public async Task<IActionResult> UpdatePassword(EditPasswordDTO input)
+        {
+            return Ok(_service.UpdatePassword(input));
+
+        }
     }
 }
