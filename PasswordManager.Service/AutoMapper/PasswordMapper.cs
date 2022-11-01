@@ -16,6 +16,8 @@ namespace PasswordManager.Service.AutoMapper
         {
             CreateMap<Passwords, PasswordListItemDTO>()
                        .ForMember(dest => dest.Id, opt => opt.MapFrom(src => EncryptHelper.Encrypt(src.PasswordId.ToString())));
+            CreateMap<PasswordListItemDTO, Passwords>()
+                .ForMember(dest => dest.PasswordId, opt => opt.MapFrom(src => EncryptHelper.Decrypt(src.Id.ToString())));
             CreateMap<EditPasswordDTO, Passwords>()
                        .ForMember(dest => dest.PasswordId, opt => opt.MapFrom(src => EncryptHelper.Decrypt(src.Id.ToString())));
             CreateMap<CreatePasswordDTO, Passwords>()
