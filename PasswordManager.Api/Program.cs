@@ -10,6 +10,7 @@ using PasswordManager.Service.AutoMapper;
 using PasswordManager.Repository.Interfaces;
 using PasswordManager.Repository.Repositories;
 using PasswordManager.Base;
+using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -46,20 +47,20 @@ builder.Services.AddAutoMapper(typeof(Configuration).Assembly);
 
 BaseApiInfo.AuthKey = builder.Configuration.GetSection("AuthSettings:Key").ToString();
 
-builder.Services.AddAuthentication(x =>
+builder.Services.AddAuthentication(options =>
 {
-    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
 })
-.AddJwtBearer(x =>
+.AddJwtBearer(o =>
 {
-    x.RequireHttpsMetadata = true;
-    x.SaveToken = true;
-    x.TokenValidationParameters = new TokenValidationParameters
+    o.RequireHttpsMetadata = true;
+    o.SaveToken = true;
+    o.TokenValidationParameters = new TokenValidationParameters
     {
         ValidateIssuerSigningKey = true,
-        IssuerSigningKey = new SymmetricSecurityKey(
-            Encoding.UTF8.GetBytes("MF@daEiAnD#v#l0per")),
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("MF@daEiAnD#v#l0per")),
         ValidateIssuer = false,
         ValidateAudience = false,
         ClockSkew = TimeSpan.Zero
@@ -69,6 +70,7 @@ builder.Services.AddAuthentication(x =>
 
 
 var app = builder.Build();
+
 
 // Add AutoMigrate
 using (var scope = app.Services.CreateScope())
@@ -91,17 +93,10 @@ app.UseCors(option =>
           .AllowAnyMethod()
 );
 
-
-
 app.UseHttpsRedirection();
-
 app.UseAuthentication();
-
-app.UseRouting();
-
 app.UseAuthorization();
 app.MapControllers();
-
 
 
 app.Run();

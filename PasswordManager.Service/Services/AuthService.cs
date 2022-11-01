@@ -1,18 +1,13 @@
 ﻿using AutoMapper;
 using Microsoft.IdentityModel.Tokens;
-using PasswordManager.Base.Helpers;
 using PasswordManager.DTO;
 using PasswordManager.Entity.Models;
 using PasswordManager.Repository.Interfaces;
 using PasswordManager.Service.Helper;
 using PasswordManager.Service.Interfaces;
-using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace PasswordManager.Service.Services
 {
@@ -51,12 +46,12 @@ namespace PasswordManager.Service.Services
             return output;
         }
 
-        public string CreateJWTToken(string userName, string secretKey = "MF@daEiAnD#v#l0per")
+        public string CreateJWTToken(string userName)
         {
             try
             {
-                var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
-                var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
+                var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("MF@daEiAnD#v#l0per"));
+                var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
                 var token = new JwtSecurityToken(
                     claims: new List<Claim>
                     {

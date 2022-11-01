@@ -10,6 +10,6 @@ namespace PasswordManager.Service.Interfaces
     public interface IAuthService
     {
         Task<ApiResultDTO<string>> Login(LoginDTO input);
-        string CreateJWTToken(string userName, string secretKey);
+        string CreateJWTToken(string userName);
     }
 }

@@ -23,7 +23,7 @@ builder.Services.AddScoped<ILoginClientService, LoginClientService>();
 
 //Add Authorize
 builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthStateProvider>();
-builder.Services.AddOptions();
+//builder.Services.AddOptions();
 builder.Services.AddAuthorizationCore();
 //
 
