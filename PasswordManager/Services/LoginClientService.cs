@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using PasswordManager.Base;
 using PasswordManager.Base.Helpers;
 using PasswordManager.DTO;
 using PasswordManager.Interfaces;
@@ -17,7 +18,7 @@ namespace PasswordManager.Services
         public async Task<ApiResultDTO<string>> Login(LoginDTO input) 
         {
             
-            var result = await _ApiUrl.PostAsJsonAsync($"https://localhost:7197/api/Login", input);
+            var result = await _ApiUrl.PostAsJsonAsync($"{BaseApiInfo.ApiAddress}api/Login", input);
             return JsonConvert.DeserializeObject<ApiResultDTO<string>>(result.Content.ReadAsStringAsync().Result);
 
         }

@@ -19,29 +19,29 @@ namespace PasswordManager.Services
 
         public async Task<ApiResultDTO<List<UserListItemDTO>>> GetUserList()
         {
-            var result = await _ApiUrl.GetFromJsonAsync<ApiResultDTO<List<UserListItemDTO>>>($"https://localhost:7197/api/users");
+            var result = await _ApiUrl.GetFromJsonAsync<ApiResultDTO<List<UserListItemDTO>>>($"{BaseApiInfo.ApiAddress}api/users");
             return result;
         }
 
         public async Task<ApiResultDTO<EditUserDTO>> GetUserDetail(string id) {
-            var result = await _ApiUrl.GetFromJsonAsync<ApiResultDTO<EditUserDTO>>($"https://localhost:7197/api/UsersDetail?id={id}");
+            var result = await _ApiUrl.GetFromJsonAsync<ApiResultDTO<EditUserDTO>>($"{BaseApiInfo.ApiAddress}api/UsersDetail?id={id}");
             return result;
         }
 
         public async Task<ApiResultDTO<bool>> UpdateUser(EditUserDTO input)
         {
-            var result = await _ApiUrl.PostAsJsonAsync($"https://localhost:7197/api/UpdateUser", input);
+            var result = await _ApiUrl.PostAsJsonAsync($"{BaseApiInfo.ApiAddress}api/UpdateUser", input);
             return JsonConvert.DeserializeObject<ApiResultDTO<bool>>(result.Content.ReadAsStringAsync().Result);
         }
         public async Task<ApiResultDTO<bool>> CreateUser(CreateUserDTO input)
         {
-            var result = await _ApiUrl.PostAsJsonAsync($"https://localhost:7197/api/CreateUser", input);
+            var result = await _ApiUrl.PostAsJsonAsync($"{BaseApiInfo.ApiAddress}api/CreateUser", input);
             return JsonConvert.DeserializeObject<ApiResultDTO<bool>>(result.Content.ReadAsStringAsync().Result);
         }
 
         public async Task<ApiResultDTO<bool>> DeleteUser(UserListItemDTO input)
         {
-            var result = await _ApiUrl.PostAsJsonAsync($"https://localhost:7197/api/DeleteUser", input);
+            var result = await _ApiUrl.PostAsJsonAsync($"{BaseApiInfo.ApiAddress}api/DeleteUser", input);
             return JsonConvert.DeserializeObject<ApiResultDTO<bool>>(result.Content.ReadAsStringAsync().Result);
         }
 
