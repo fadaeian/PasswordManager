@@ -23,8 +23,10 @@ namespace PasswordManager.Entity.Managers
 
             base.OnModelCreating(modelBuilder);
             modelBuilder.ApplyConfiguration(new UserConf());
+            modelBuilder.ApplyConfiguration(new PasswordsConf());
         }
 
         public DbSet<User> User { get; set; }
+        public DbSet<Passwords> Passwords { get; set; }
     }
 }

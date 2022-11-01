@@ -101,7 +101,7 @@ namespace PasswordManager.Service.Services
             }
             catch (Exception e)
             {
-                SeriLogHelper.SaveErrorLog(output, e, "UpdateUser");
+                SeriLogHelper.SaveErrorLog(output, e, "CreateUser");
             }
             return output;
 

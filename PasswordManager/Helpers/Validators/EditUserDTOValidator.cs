@@ -3,7 +3,7 @@ using PasswordManager.DTO;
 
 namespace PasswordManager.Helpers.Validators
 {
-	public class EditUserDTOValidator : AbstractValidator<EditUserDTO>
+    public class EditUserDTOValidator : AbstractValidator<EditUserDTO>
     {
 
         public EditUserDTOValidator()

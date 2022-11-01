@@ -12,6 +12,7 @@ namespace PasswordManager.Service.AutoMapper
         MapperConfiguration config = new(cfg =>
         {
             cfg.AddProfile<UserMapper>();
+            cfg.AddProfile<PasswordMapper>();
         });
     }
 }
