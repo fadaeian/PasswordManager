@@ -73,8 +73,6 @@
 
 	protected override async Task OnInitializedAsync()
 	{
-		await AuthStateProvider.GetAuthenticationStateAsync();
-
 		var result = await UserClientService.GetUserList();
 		if (result.Success)
 		{
